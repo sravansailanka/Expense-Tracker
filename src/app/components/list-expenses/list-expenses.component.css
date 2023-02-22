@@ -1,0 +1,121 @@
+/* Global styles */
+* {
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  color: #444;
+}
+
+body {
+  background: url('https://cdn.pixabay.com/photo/2017/01/22/12/07/imac-1999630_960_720.jpg') no-repeat center center fixed;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 3rem;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  color: #1E90FF;
+}
+
+input[type="text"],
+select {
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  background-color: #FFF;
+  margin-bottom: 1rem;
+  display: block;
+  margin: auto;
+  width: 50%;
+  max-width: 500px;
+}
+
+button {
+  font-size: 1.2rem;
+  background-color: #1E90FF;
+  color: #FFF;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: block;
+  margin: auto;
+  margin-top: 1rem;
+}
+
+button:hover {
+  background-color: #FFF;
+  color: #1E90FF;
+  border: 2px solid #1E90FF;
+}
+
+table {
+  margin-top: 2rem;
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  overflow: hidden;
+  max-width: 800px;
+  margin: auto;
+}
+
+thead {
+  background-color: #1E90FF;
+  color: #FFF;
+}
+
+th {
+  font-weight: bold;
+  padding: 1rem;
+  text-align: center;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #F5F5F5;
+}
+
+tbody tr:hover {
+  background-color: #FFF;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+td {
+  padding: 1rem;
+  text-align: center;
+}
+
+a {
+  color: #1E90FF;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+#Add {
+  display: block;
+  color:#000000;
+  text-align: center;
+  margin: 1rem auto;
+  font-size: 1.2rem;
+  background-color: #fbff1e;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  text-decoration: none;
+  width: fit-content;
+}
+
+#Add:hover {
+  background-color: #FFF;
+  color: #000000;
+  border: 2px solid #fffb1e;
+}

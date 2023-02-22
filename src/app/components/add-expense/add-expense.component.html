@@ -1,0 +1,31 @@
+<html>
+<head>
+    <title>Dummy</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="add-expense.component.css">
+</head>
+<body>
+        
+        <form (ngSubmit)="saveExpense()">
+
+        
+        <input type="text" 
+                name="expense"
+                [(ngModel)]="expense.expense" 
+                placeholder="Enter expense name" />
+        <input type="text" 
+                name="amount"
+                [(ngModel)]="expense.amount" 
+                placeholder="Enter amount" />
+        <textarea type="text" 
+                name="description"
+                [(ngModel)]="expense.description" 
+                placeholder="Enter description" ></textarea>
+
+        <button type="submit">Add Expense</button>
+        <button type="button" *ngIf="expense.id" (click)="deleteExpense(expense.id)">Delete</button>
+    
+
+        </form>
+</body>
+</html>

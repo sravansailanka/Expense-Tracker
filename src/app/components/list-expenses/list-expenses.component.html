@@ -1,0 +1,57 @@
+<html>
+<head>
+    <title>Dummy</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="list-expenses.component.css">
+</head>
+<body>
+    <!-- <h1>Expense Tracker</h1>
+    
+    <input type="text" 
+            [(ngModel)]="filters.keyword"
+            name="keyword"
+            (input)="listExpenses()">
+    <select name="sortBy" [(ngModel)]="filters.sortBy" (change)="listExpenses()">
+        <option>Name</option>
+        <option>Amount</option>
+    </select>
+    <br/>
+    <a routerLink="/addexpense">Add Expense</a>
+    <div *ngFor="let expense of expenses">
+        <h3>{{expense.expense}}</h3>
+        <p>{{expense.amount | currency: 'INR'}}</p>
+        <a routerLink="/editexpense/{{expense.id}}">Edit</a>
+        <button (click)="deleteExpense(expense.id)">Delete</button>
+    </div> -->
+
+    <h1>Expense Tracker</h1>
+
+  <input type="text" [(ngModel)]="filters.keyword" name="keyword" (input)="listExpenses()" placeholder="Search expense">
+  <select name="sortBy" [(ngModel)]="filters.sortBy" (change)="listExpenses()">
+    <option>Name</option>
+    <option>Amount</option>
+  </select>
+  <br/>
+  <a routerLink="/addexpense" id="Add" >Add Expense</a>
+  <table>
+    <thead>
+      <tr>
+        <th>Expense</th>
+        <th>Amount</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let expense of expenses">
+        <td>{{expense.expense}}</td>
+        <td>{{expense.amount | currency: 'INR'}}</td>
+        <td><a routerLink="/editexpense/{{expense.id}}">Edit</a></td>
+        <td><button (click)="deleteExpense(expense.id)">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>
+    
+

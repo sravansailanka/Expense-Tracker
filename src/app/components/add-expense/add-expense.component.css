@@ -1,0 +1,80 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(135deg, #2c3e50, #3498db);
+  color: #fff;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+form {
+  background: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  width: 500px;
+}
+
+form input,
+form textarea {
+  background: #f2f2f2;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+  width: 100%;
+  font-size: 16px;
+  color: #333;
+  transition: all 0.3s ease;
+  font-family: 'Montserrat', sans-serif;
+}
+
+form input:focus,
+form textarea:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+}
+
+form button[type='submit'],
+form button[type='button'] {
+  background: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+}
+
+form button[type='submit']:hover
+{
+  background: #81c784;
+  color: #333;
+}
+form button[type='button']:hover {
+  background: #be3636;
+  color: #333;
+}
+form button[type='submit']:active,
+form button[type='button']:active {
+  transform: scale(0.98);
+}
+
+form textarea {
+  height: 100px;
+}
+
+@media screen and (max-width: 600px) {
+  form {
+    width: 90%;
+  }
+}
