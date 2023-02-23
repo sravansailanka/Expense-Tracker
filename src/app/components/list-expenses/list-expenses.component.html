@@ -26,24 +26,24 @@
 
     <h1>Expense Tracker</h1>
 
-  <input type="text" [(ngModel)]="filters.keyword" name="keyword" (input)="listExpenses()" placeholder="Search expense">
-  <select name="sortBy" [(ngModel)]="filters.sortBy" (change)="listExpenses()">
+  <input type="text" [(ngModel)]="filters.keyword" name="keyword" (input)="filterExpenses()" placeholder="Search expense">
+  <!-- <select name="sortBy" [(ngModel)]="filters.sortBy" (change)="listExpenses()">
     <option>Name</option>
     <option>Amount</option>
-  </select>
+  </select> -->
   <br/>
   <a routerLink="/addexpense" id="Add" >Add Expense</a>
   <table>
     <thead>
       <tr>
-        <th>Expense</th>
-        <th>Amount</th>
+        <th (click)="sortExpensesByExpense()">Expense</th>
+        <th (click)="sortExpensesByAmount()">Amount</th>
         <th>Edit</th>
         <th>Delete</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let expense of expenses">
+      <tr *ngFor="let expense of filteredExpenses">
         <td>{{expense.expense}}</td>
         <td>{{expense.amount | currency: 'INR'}}</td>
         <td><a routerLink="/editexpense/{{expense.id}}">Edit</a></td>
@@ -51,6 +51,7 @@
       </tr>
     </tbody>
   </table>
+  
 </body>
 </html>
     
