@@ -33,7 +33,8 @@
   </select> -->
   <br/>
   <a routerLink="/addexpense" id="Add" >Add Expense</a>
-  <table>
+
+  <!-- <table>
     <thead>
       <tr>
         <th (click)="sortExpensesByExpense()">Expense</th>
@@ -50,7 +51,48 @@
         <td><button (click)="deleteExpense(expense.id)">Delete</button></td>
       </tr>
     </tbody>
-  </table>
+  </table> -->
+
+
+  <!-- <p-table [value]="filteredExpenses" [sortField]="sortField" [sortOrder]="sortOrder">
+    <thead>
+    <tr>
+        <th p-sortIcon="expense" (click)="sortExpenses('expense')">Expense</th>
+        <th p-sortIcon="amount" (click)="sortExpenses('amount')">Amount</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+</thead>
+
+    <tbody>
+      <tr *ngFor="let expense of filteredExpenses">
+        <td>{{expense.expense}}</td>
+        <td>{{expense.amount | currency: 'INR'}}</td>
+        <td><a routerLink="/editexpense/{{expense.id}}">Edit</a></td>
+        <td><button (click)="deleteExpense(expense.id)">Delete</button></td>
+    </tr>
+    </tbody>
+  </p-table> -->
+
+  <p-table [value]="filteredExpenses">
+    <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="expense">Expense <p-sortIcon field="expense"></p-sortIcon></th>
+          <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon></th>
+          <th>Edit</th>
+          <th>Delete</th>
+          
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-expense>
+      <tr>
+        <td>{{expense.expense}}</td>
+        <td>{{expense.amount | currency: 'INR'}}</td>
+        <td><a routerLink="/editexpense/{{expense.id}}">Edit</a></td>
+        <td><button (click)="deleteExpense(expense.id)">Delete</button></td>
+      </tr>
+    </ng-template>
+</p-table>
   
 </body>
 </html>

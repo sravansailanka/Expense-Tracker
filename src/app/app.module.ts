@@ -4,6 +4,13 @@ import {HttpClientModule} from '@angular/common/http'
 import { RouterModule, Routes } from '@angular/router';
 import {FormsModule} from "@angular/forms"
 import { MatSortModule } from '@angular/material/sort';
+import { OrderByPipe } from 'ngx-pipes';
+
+import { OnInit } from '@angular/core';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { CommonModule } from '@angular/common';
+
 
 import { AppComponent } from './app.component';
 import { ListExpensesComponent } from './components/list-expenses/list-expenses.component';
@@ -21,7 +28,8 @@ const routers:Routes = [
   declarations: [
     AppComponent,
     ListExpensesComponent,
-    AddExpenseComponent
+    AddExpenseComponent,
+  
   ],
   imports: [
     BrowserModule,
@@ -29,9 +37,13 @@ const routers:Routes = [
     RouterModule.forRoot(routers),
     FormsModule,
     BrowserAnimationsModule,
-    MatSortModule
+    MatSortModule,
+    CommonModule,
+    TableModule,
+    ButtonModule,
+    
   ],
-  providers: [],
+  providers: [ OrderByPipe ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
