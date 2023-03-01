@@ -1,33 +1,50 @@
 import { Component, OnInit } from '@angular/core';
 import { Expense } from 'src/app/models/expense';
 import { ExpenseService } from 'src/app/services/expense.service';
-import { SortEvent } from 'primeng/api';
+import { ConfirmationService, MessageService, SortEvent } from 'primeng/api';
 
 @Component({
   selector: 'app-list-expenses',
   templateUrl: './list-expenses.component.html',
-  styleUrls: ['./list-expenses.component.css']
+  styleUrls: ['./list-expenses.component.scss']
 })
 export class ListExpensesComponent implements OnInit{
 
+  productDialog: boolean;
+  selectedProducts: Expense[];
+
+  submitted: boolean;
   sortExpenseAsc = false;
   sortAmountAsc = false;
 
   sortField: string = '';
   sortOrder: number = 1;
 
-  expenses: Expense[] = [];
+  expenses: Expense[]=[];
+  expense: Expense;
   filteredExpenses = [...this.expenses];
   filters = {
     keyword: '',
     // sortBy: 'Name'
   }
 
-  constructor(private _expenseService: ExpenseService){}
+  constructor(private _expenseService: ExpenseService,private messageService: MessageService, private confirmationService: ConfirmationService){}
   ngOnInit(): void {
     this.listExpenses();
     
   }
+  openNew() {
+    
+    this.submitted = false;
+    this.productDialog = true;
+}
+
+  confirmDeleteExpense(expenseId: number): void {
+    if (confirm('Are you sure you want to delete this expense?')) {
+      this.deleteExpense(expenseId);
+    }
+  }
+  
   deleteExpense(id:number){
     this._expenseService.deleteExpense(id).subscribe(
       data => {
