@@ -32,7 +32,7 @@
   </select> -->
   <br/>
   <a routerLink="/addexpense" id="Add" >Add Expense</a>
-
+  <p-toast></p-toast>
   <!-- <table>
     <thead>
       <tr>
@@ -83,12 +83,12 @@
         <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
     </ng-template>
 </p-toolbar> -->
-
+<div class="card">
   <p-toolbar styleClass="p-mb-4">
     <ng-template pTemplate="left">
       <!-- <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button> -->
       <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button>
-      <!-- <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button> -->
+      <button pButton pRipple [label]="" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedEpenses || !selectedEpenses.length"></button>
   </ng-template>
 
   <ng-template pTemplate="right" >
@@ -104,7 +104,7 @@
   
 
   <p-table  #dt [value]="filteredExpenses" [rows]="10" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']"
-  [(selection)]="selectedProducts" [rowHover]="true" dataKey="id"
+  [(selection)]="selectedEpenses" [rowHover]="true" dataKey="id"
   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
     <ng-template pTemplate="caption">
       <div class="p-d-flex p-ai-center p-jc-between">
@@ -119,23 +119,96 @@
     </ng-template>
     <ng-template pTemplate="header">
         <tr>
+          <th style="width: 3rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
           <th pSortableColumn="expense">Expense <p-sortIcon field="expense"></p-sortIcon></th>
           <th pSortableColumn="amount">Amount <p-sortIcon field="amount"></p-sortIcon></th>
-          <th>Edit</th>
-          <th>Delete</th>
+          <th></th>
+          <!-- <th>Edit</th>
+          <th>Delete</th> -->
           
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-expense>
       <tr>
+        <td>
+          <p-tableCheckbox [value]="expense"></p-tableCheckbox>
+        </td>
         <td>{{expense.expense}}</td>
         <td>{{expense.amount | currency: 'INR'}}</td>
-        <td><a routerLink="/editexpense/{{expense.id}}">Edit</a></td>
-        <td><button (click)="confirmDeleteExpense(expense.id)">Delete</button></td>
+        <!-- <td><a routerLink="/editexpense/{{expense.id}}">Edit</a></td> -->
+        <!-- <td><button (click)="confirmDeleteExpense(expense.id) >Delete</button></td> -->
+        <td>
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"></button> <span>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="confirmDeleteExpense(expense.id)"></button>
+          </span>
+      </td>
       </tr>
     </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="p-d-flex p-ai-center p-jc-between">
+          In total there are {{expenses ? expenses.length : 0 }} expenses.
+      </div>
+  </ng-template>
 </p-table>
+</div>
+
+
+<!-- <p-dialog [(visible)]="expenseDialog" [style]="{width: '450px'}" header="Expense Details" [modal]="true" styleClass="p-fluid">
   
+  <ng-template pTemplate="">
+      <div class="p-field">
+          <label for="expense">Name</label>
+          <input type="text" pInputText id="expense" [(ngModel)]="expense.expense"/>
+          <small class="p-invalid" *ngIf="submitted && !expense.expense">Name is required.</small>
+      </div>
+      <div class="p-field">
+          <label for="description">Description</label>
+          <textarea id="description" pInputTextarea [(ngModel)]="expense.description" required rows="3" cols="20"></textarea>
+      </div>
+
+      <div class="p-field">
+          <label class="p-mb-3">Category</label>
+          <div class="p-formgrid p-grid">
+              <div class="p-field-radiobutton p-col-6">
+                  <p-radioButton id="category1" name="category" value="Accessories" [(ngModel)]="product.category"></p-radioButton>
+                  <label for="category1">Accessories</label>
+              </div>
+              <div class="p-field-radiobutton p-col-6">
+                  <p-radioButton id="category2" name="category" value="Clothing" [(ngModel)]="product.category"></p-radioButton>
+                  <label for="category2">Clothing</label>
+              </div>
+              <div class="p-field-radiobutton p-col-6">
+                  <p-radioButton id="category3" name="category" value="Electronics" [(ngModel)]="product.category"></p-radioButton>
+                  <label for="category3">Electronics</label>
+              </div>
+              <div class="p-field-radiobutton p-col-6">
+                  <p-radioButton id="category4" name="category" value="Fitness" [(ngModel)]="product.category"></p-radioButton>
+                  <label for="category4">Fitness</label>
+              </div>
+          </div>
+      </div> 
+
+      <div class="p-formgrid p-grid">
+          <div class="p-field p-col">
+              <label for="amount">Amount</label>
+              <p-inputNumber id="amount" [(ngModel)]="expense.amount" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
+          </div>
+          
+      </div>
+  </ng-template>
+  
+  <ng-template pTemplate="footer">
+    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveExpense()"></button>
+
+  </ng-template>
+</p-dialog> -->
+
+
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
 </body>
 </html>
     

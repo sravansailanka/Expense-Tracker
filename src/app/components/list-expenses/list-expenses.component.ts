@@ -10,8 +10,8 @@ import { ConfirmationService, MessageService, SortEvent } from 'primeng/api';
 })
 export class ListExpensesComponent implements OnInit{
 
-  productDialog: boolean;
-  selectedProducts: Expense[];
+  expenseDialog: boolean;
+  selectedEpenses: Expense[];
 
   submitted: boolean;
   sortExpenseAsc = false;
@@ -36,15 +36,34 @@ export class ListExpensesComponent implements OnInit{
   openNew() {
     
     this.submitted = false;
-    this.productDialog = true;
+    this.expenseDialog = true;
 }
 
   confirmDeleteExpense(expenseId: number): void {
-    if (confirm('Are you sure you want to delete this expense?')) {
-      this.deleteExpense(expenseId);
-    }
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete the expense?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteExpense(expenseId);
+        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Products Deleted', life: 3000});
+      }
+  });
+      
+    
   }
-  
+  saveExpense(){
+    this._expenseService.saveExpense(this.expense).subscribe(
+      data => {
+        console.log('response', data)
+        //this._router.navigateByUrl("/expenses");
+      }
+    )
+  }
+  hideDialog() {
+    this.expenseDialog = false;
+    this.submitted = false;
+  }
   deleteExpense(id:number){
     this._expenseService.deleteExpense(id).subscribe(
       data => {
@@ -54,6 +73,20 @@ export class ListExpensesComponent implements OnInit{
     )
   }
 
+  deleteSelectedProducts() {
+      this.confirmationService.confirm({
+        message: 'Are you sure you want to delete the selected expense(s)?',
+        header: 'Confirm',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          this.selectedEpenses.forEach(element => {
+            this.deleteExpense(element.id);
+          });
+          this.messageService.add({severity:'success', summary: 'Successful', detail: 'Products Deleted', life: 3000});
+        }
+    });
+    
+  }
   listExpenses(){
     this._expenseService.getExpenses().subscribe( 
       data => {
