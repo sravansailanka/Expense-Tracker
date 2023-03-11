@@ -37,7 +37,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-
+import { RippleModule } from 'primeng/ripple';
 const routers:Routes = [
   {path: 'expenses', component: ListExpensesComponent},
   {path: 'addexpense', component: AddExpenseComponent},
@@ -80,6 +80,7 @@ const routers:Routes = [
     InputNumberModule,
     ConfirmDialogModule,
     InputTextareaModule,
+    RippleModule
     
   ],
   providers: [ OrderByPipe, ConfirmationService, MessageService],

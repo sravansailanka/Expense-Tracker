@@ -31,7 +31,7 @@
     <option>Amount</option>
   </select> -->
   <br/>
-  <a routerLink="/addexpense" id="Add" >Add Expense</a>
+  <!-- <a routerLink="/addexpense" id="Add" >Add Expense</a> -->
   <p-toast></p-toast>
   <!-- <table>
     <thead>
@@ -88,7 +88,7 @@
     <ng-template pTemplate="left">
       <!-- <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button> -->
       <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button>
-      <button pButton pRipple [label]="" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedEpenses || !selectedEpenses.length"></button>
+      <button pButton pRipple [label]="" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedExpenses()" [disabled]="!selectedExpenses || !selectedExpenses.length"></button>
   </ng-template>
 
   <ng-template pTemplate="right" >
@@ -104,7 +104,7 @@
   
 
   <p-table  #dt [value]="filteredExpenses" [rows]="10" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']"
-  [(selection)]="selectedEpenses" [rowHover]="true" dataKey="id"
+  [(selection)]="selectedExpenses" [rowHover]="true" dataKey="id"
   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
     <ng-template pTemplate="caption">
       <div class="p-d-flex p-ai-center p-jc-between">
@@ -140,10 +140,10 @@
         <!-- <td><a routerLink="/editexpense/{{expense.id}}">Edit</a></td> -->
         <!-- <td><button (click)="confirmDeleteExpense(expense.id) >Delete</button></td> -->
         <td>
-          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"></button> <span>
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editExpense(expense)"></button> <span>
           <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="confirmDeleteExpense(expense.id)"></button>
           </span>
-      </td>
+        </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="summary">
@@ -154,57 +154,82 @@
 </p-table>
 </div>
 
+<!-- <p-dialog header="Add Expense" [(visible)]="expenseDialog" [responsive]="true" [modal]="true" [style]="{ width: '450px' }">
+  <form (ngSubmit)="saveExpense()">
+    <input type="text" name="expense" [(ngModel)]="expense.expense" placeholder="Enter expense name" />
+    <input type="text" name="amount" [(ngModel)]="expense.amount" placeholder="Enter amount" />
+    <textarea type="text" name="description" [(ngModel)]="expense.description" placeholder="Enter description"></textarea>
 
-<!-- <p-dialog [(visible)]="expenseDialog" [style]="{width: '450px'}" header="Expense Details" [modal]="true" styleClass="p-fluid">
-  
-  <ng-template pTemplate="">
-      <div class="p-field">
-          <label for="expense">Name</label>
-          <input type="text" pInputText id="expense" [(ngModel)]="expense.expense"/>
-          <small class="p-invalid" *ngIf="submitted && !expense.expense">Name is required.</small>
-      </div>
-      <div class="p-field">
-          <label for="description">Description</label>
-          <textarea id="description" pInputTextarea [(ngModel)]="expense.description" required rows="3" cols="20"></textarea>
-      </div>
-
-      <div class="p-field">
-          <label class="p-mb-3">Category</label>
-          <div class="p-formgrid p-grid">
-              <div class="p-field-radiobutton p-col-6">
-                  <p-radioButton id="category1" name="category" value="Accessories" [(ngModel)]="product.category"></p-radioButton>
-                  <label for="category1">Accessories</label>
-              </div>
-              <div class="p-field-radiobutton p-col-6">
-                  <p-radioButton id="category2" name="category" value="Clothing" [(ngModel)]="product.category"></p-radioButton>
-                  <label for="category2">Clothing</label>
-              </div>
-              <div class="p-field-radiobutton p-col-6">
-                  <p-radioButton id="category3" name="category" value="Electronics" [(ngModel)]="product.category"></p-radioButton>
-                  <label for="category3">Electronics</label>
-              </div>
-              <div class="p-field-radiobutton p-col-6">
-                  <p-radioButton id="category4" name="category" value="Fitness" [(ngModel)]="product.category"></p-radioButton>
-                  <label for="category4">Fitness</label>
-              </div>
-          </div>
-      </div> 
-
-      <div class="p-formgrid p-grid">
-          <div class="p-field p-col">
-              <label for="amount">Amount</label>
-              <p-inputNumber id="amount" [(ngModel)]="expense.amount" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
-          </div>
-          
-      </div>
-  </ng-template>
-  
-  <ng-template pTemplate="footer">
-    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveExpense()"></button>
-
-  </ng-template>
+    <button type="submit">Add Expense</button>
+    <button type="button" *ngIf="expense.id" (click)="deleteExpense(expense.id)">Delete</button>
+  </form>
 </p-dialog> -->
+
+<p-dialog
+  [(visible)]="expenseDialog"
+  [style]="{ width: '450px' }"
+  header="Expense Details"
+  [modal]="true"
+  styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="p-field">
+      <label for="name">Name</label>
+      <input
+        type="text"
+        pInputText
+        id="name"
+        [(ngModel)]="expense.expense"
+        required
+        autofocus
+      />
+      <small class="p-invalid" *ngIf="submitted && !expense.expense"
+        >Name is required.</small>
+    </div>
+    <div class="p-field">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        pInputTextarea
+        [(ngModel)]="expense.description"
+        required
+        rows="3"
+        cols="20"
+      ></textarea>
+    </div>
+    <div class="p-formgrid p-grid">
+      <div class="p-field p-col">
+        <label for="price">Price</label>
+        <p-inputNumber
+          id="price"
+          [(ngModel)]="expense.amount"
+          mode="currency"
+          currency="INR"
+          locale="en-US"
+        ></p-inputNumber>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Cancel"
+      icon="pi pi-times"
+      class="p-button-outlined"
+      (click)="hideDialog()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="Save"
+      icon="pi pi-check"
+      class="p-button-raised"
+      (click)="saveExpense()"
+    ></button>
+  </ng-template>
+</p-dialog>
+
 
 
 

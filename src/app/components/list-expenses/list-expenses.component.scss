@@ -119,7 +119,19 @@
 //   color: #000000;
 //   border: 2px solid #fffb1e;
 // }
-
+h1 {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #333;
+    margin: 0;
+    padding: 1rem 0;
+    border-bottom: 2px solid #333;
+  }
+  
+  
 :host ::ng-deep {
   .p-paginator {
       .p-paginator-current {

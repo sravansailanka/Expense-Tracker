@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Expense } from 'src/app/models/expense';
 import { ExpenseService } from 'src/app/services/expense.service';
 import { ConfirmationService, MessageService, SortEvent } from 'primeng/api';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
 
 @Component({
   selector: 'app-list-expenses',
@@ -11,7 +14,7 @@ import { ConfirmationService, MessageService, SortEvent } from 'primeng/api';
 export class ListExpensesComponent implements OnInit{
 
   expenseDialog: boolean;
-  selectedEpenses: Expense[];
+  selectedExpenses: Expense[];
 
   submitted: boolean;
   sortExpenseAsc = false;
@@ -21,22 +24,23 @@ export class ListExpensesComponent implements OnInit{
   sortOrder: number = 1;
 
   expenses: Expense[]=[];
-  expense: Expense;
+  expense: Expense = new Expense();
   filteredExpenses = [...this.expenses];
   filters = {
     keyword: '',
     // sortBy: 'Name'
   }
 
-  constructor(private _expenseService: ExpenseService,private messageService: MessageService, private confirmationService: ConfirmationService){}
+  constructor(private _expenseService: ExpenseService,private messageService: MessageService, private confirmationService: ConfirmationService, private _router: Router, private _activateRoute: ActivatedRoute){}
   ngOnInit(): void {
     this.listExpenses();
     
   }
   openNew() {
-    
+    //this._router.navigate(['/addexpense']);
     this.submitted = false;
     this.expenseDialog = true;
+    this.expense = new Expense();
 }
 
   confirmDeleteExpense(expenseId: number): void {
@@ -46,19 +50,36 @@ export class ListExpensesComponent implements OnInit{
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.deleteExpense(expenseId);
-        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Products Deleted', life: 3000});
+        this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product(s) Deleted', life: 3000});
       }
   });
-      
-    
+  }
+  onEditClicked(expenseId: number){
+    this._router.navigate(['/editexpense/'+expenseId.toString()]);
   }
   saveExpense(){
     this._expenseService.saveExpense(this.expense).subscribe(
       data => {
         console.log('response', data)
+        this.expenseDialog = false;
+        console.log(this.expense.id);
+        if(this.expense.id === undefined){
+          this.messageService.add({severity:'success', summary: 'Successful', detail: 'Expense Created', life: 3000});
+        }
+        else{
+          this.messageService.add({severity:'success', summary: 'Successful', detail: 'Expense Updated', life: 3000});
+        }
         //this._router.navigateByUrl("/expenses");
+        this.listExpenses();
       }
     )
+    
+  }
+  editExpense(expense: Expense) {
+    this.expense = {...expense};
+    this.expenseDialog = true;
+
+    
   }
   hideDialog() {
     this.expenseDialog = false;
@@ -67,22 +88,22 @@ export class ListExpensesComponent implements OnInit{
   deleteExpense(id:number){
     this._expenseService.deleteExpense(id).subscribe(
       data => {
-        console.log('deleted responase', data);
+        console.log('deleted response', data);
         this.listExpenses();
       }
     )
   }
 
-  deleteSelectedProducts() {
+  deleteSelectedExpenses() {
       this.confirmationService.confirm({
         message: 'Are you sure you want to delete the selected expense(s)?',
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-          this.selectedEpenses.forEach(element => {
+          this.selectedExpenses.forEach(element => {
             this.deleteExpense(element.id);
           });
-          this.messageService.add({severity:'success', summary: 'Successful', detail: 'Products Deleted', life: 3000});
+          this.messageService.add({severity:'success', summary: 'Successful', detail: 'Expense(s) Deleted', life: 3000});
         }
     });
     
@@ -190,3 +211,5 @@ export class ListExpensesComponent implements OnInit{
     // })
   }
 }
+
+
